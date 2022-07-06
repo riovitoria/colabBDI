@@ -1,0 +1,31 @@
+mdp
+const double c;
+const int ht1  = 25; const int ht2  = 27; const int t2m  = 34;
+const int t3m  = 32; const int t4m  = 20; const int t5m  = 27;
+const int t2t1 = 19; const int t4t5 = 18; const int t3t4 = 34;
+const int t1t5 = 28; const int t2t3 = 39;
+module colaboracao
+h: [0..1] init 1; m :[0..1] init 0; t1:[0..1] init 0; t5:[0..1] init 0;
+t2:[0..1] init 0; t4:[0..1] init 0; t3:[0..1] init 0; v:[0..10000] init 0;
+d:[0..10000] init 0; dt:[0..1000000] init 0; tt1:[0..100000] init 0; 
+tt2:[0..100000] init 0; tt3:[0..100000]; tt4:[0..100000] init 0; 
+tt5:[0..100000] init 0;
+[VANT] h=1   & v<10000 -> (1-c):(m'=1)+
+			  (c/3):(h'=0) &(t1'=1)&(d'=d+ht1)+
+			  (c/3):(h'=0) &(t2'=1)&(d'=d+ht2)+
+			  (c/3):(h'=0) &(t3'=1)&(d'=d+ht3);
+[VANT] t1=1  & v<10000 -> (1-c):(t1'=0)&(m'=1) &(d'=d+t1m) &(tt1'=tt1+1)+
+			  ( c ):(t1'=0)&(t5'=1)&(d'=d+t1t5)&(tt1'=tt1+1);
+[VANT] t2=1  & v<10000 -> (1-c):(t2'=0)&(m'=1) &(d'=d+t2m) &(tt2'=tt2+1)+
+			  (c/2):(t2'=0)&(t1'=1)&(d'=d+t2t1)&(tt2'=tt2+1)+
+			  (c/2):(t2'=0)&(t3'=1)&(d'=d+t2t3)&(tt2'=tt2+1);
+[VANT] t3=1  & v<10000 -> (1-c):(t3'=0)&(m'=1) &(d'=d+t3m) &(tt3'=tt3+1)+
+			  ( c ):(t3'=0)&(t4'=1)&(d'=d+t3t4)&(tt3'=tt3+1);
+[VANT] t4=1  & v<10000 -> (1-c):(t4'=0)&(m'=1) &(d'=d+t4m) &(tt4'=tt4+1)+
+			  ( c ):(t4'=0)&(t5'=1)&(d'=d+t4t5)&(tt4'=tt4+1);
+[VANT] t5=1  & v<10000 -> (t5'=0)&(m'=1) &(d'=d+t5m)&(tt5'=tt5+1);
+[VANT] m=1   & v<10000 -> (t1'=0)&(t2'=0)&(t3'=0)&(t4'=0)&(t5'=0)&
+			  (m'=0)&(h'=1) &(v'=v+1)&(dt'=dt+d)&(d'=0);
+endmodule
+
+
